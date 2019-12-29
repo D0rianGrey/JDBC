@@ -34,7 +34,7 @@ public class ConnectionToMySQL {
 
             statement.executeUpdate("insert into mysql.Books (name) values ('Test')");
 
-            CallableStatement callableStatement = connection.prepareCall("{call BooksCount(?)}");
+            /*CallableStatement callableStatement = connection.prepareCall("{call BooksCount(?)}");
             callableStatement.registerOutParameter(1,Types.INTEGER);
             callableStatement.execute();
             System.out.println(callableStatement.getInt(1));
@@ -49,16 +49,18 @@ public class ConnectionToMySQL {
                     System.out.println(resultSet.getInt("id"));
                     System.out.println(resultSet.getString("name"));
                 }
+            }*/
+
+            CallableStatement callableStatement3 = connection.prepareCall("{call getCount()}");
+            boolean hasResults = callableStatement3.execute();
+            while (hasResults) {
+                ResultSet resultSet = callableStatement3.getResultSet();
+                while (resultSet.next()) {
+                    System.out.println(resultSet.getInt(1));
+                }
+
+                hasResults = callableStatement3.getMoreResults();
             }
-
-
-
-
-
-
-
-
         }
-
     }
 }
